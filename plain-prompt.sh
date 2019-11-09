@@ -1,7 +1,7 @@
 prompt_section(){
     printf "\001\033[3$1m\002 "
     printf "$2"
-    printf " \001\033[0m\002"
+    printf "\001\033[0m\002"
 }
 end_prompt(){
     echo -e "\n\001\033[1;32m\002>\001\033[0m\002 "
