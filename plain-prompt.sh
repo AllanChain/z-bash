@@ -1,23 +1,15 @@
-CURRENT_BG=''
 prompt_section(){
-    #local fg bg
-    if [[ -n $CURRENT_BG ]];then
-        # end the last section
-        printf " \001\033[0m\002"
-    fi
-    # open current section
     printf "\001\033[3$1m\002 "
-    # still has one char dont know
-    export CURRENT_BG=$2
+    printf "$2"
+    printf " \001\033[0m\002"
 }
 end_prompt(){
-    printf "\n→\001\033[0m\002 "
+    prompt_section 4 "\n\001\033[1;32m\002>\001\033[0m\002 "
 }
 dir_prompt(){
-    prompt_section 4 0
     d_all=$(pwd)
     d_all=${d_all/$HOME/\~}
-    printf "$d_all"
+    prompt_section 4 "$d_all"
 }
 git_prompt(){
     if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
@@ -36,26 +28,24 @@ git_prompt(){
         local git_status=$(git status)
         local git_now; # 标示
         if [[ "$git_status" =~ Changes\ not\ staged || "$git_status" =~ no\ changes\ added ]]; then
-            git_now="${git_now}·";
+            git_now="${git_now}*";
         fi
         if [[ "$git_status" =~ Changes\ to\ be\ committed ]]; then
             git_now="${git_now}+";
         fi
         if [[ "$git_status" =~ Your\ branch\ is\ ahead ]]; then
-            git_now="${git_now}↑";
+            git_now="${git_now}^";
         fi
         if [[ "$git_status" =~ nothing\ to\ commit ]]; then
-            prompt_section 2 0 
+            prompt_section 2 "${ref} ${git_now}${mode}"
         else
-            prompt_section 3 0
+            prompt_section 3 "${ref} ${git_now}${mode}"
         fi
-        printf "${ref} ${git_now}${mode}"
     fi
 }
 
 user_prompt(){
-    prompt_section 7 0
-    printf "$USER@$HOSTNAME"
+    prompt_section 5 "$USER@$HOSTNAME"
 }
 
 build_prompt(){
