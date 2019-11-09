@@ -4,7 +4,7 @@ prompt_section(){
     printf " \001\033[0m\002"
 }
 end_prompt(){
-    prompt_section 4 "\n\001\033[1;32m\002>\001\033[0m\002 "
+    echo -e "\n\001\033[1;32m\002>\001\033[0m\002 "
 }
 dir_prompt(){
     d_all=$(pwd)
