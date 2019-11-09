@@ -1,4 +1,9 @@
-alias ..="cd .."
+bind '"\e[A":history-search-backward'
+bind '"\e[B":history-search-forward'
+bind 'set completion-ignore-case on'
+bind 'set show-all-if-ambiguous on'
+
+alias ..=cd\ ..
 alias ...=cd\ ../..
 alias ....=cd\ ../../..
 alias .....=cd\ ../../../..
