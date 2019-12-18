@@ -25,20 +25,20 @@ git_prompt(){
           mode=" >R>"
         fi
 
-        local git_status=$(git status)
         local git_now; # 标示
-        if [[ "$git_status" =~ Changes\ not\ staged || "$git_status" =~ no\ changes\ added ]]; then
-            git_now="${git_now}*";
-        fi
-        if [[ "$git_status" =~ Changes\ to\ be\ committed ]]; then
-            git_now="${git_now}+";
-        fi
-        if [[ "$git_status" =~ Your\ branch\ is\ ahead ]]; then
-            git_now="${git_now}^";
-        fi
-        if [[ "$git_status" =~ nothing\ to\ commit ]]; then
-            prompt_section 2 "${ref} ${git_now}${mode}"
+        if output=$(git status --porcelain) && [ -z "$output" ]; then
+            # Working directory clean
+            prompt_section 2 "${ref} ${mode}"
         else
+            # Uncommitted changes
+            if ! git diff --exit-code > /dev/null; then
+                # Check for unstaged changes
+                git_now="${git_now}*";
+            fi
+            if ! git diff --cached --exit-code &> /dev/null; then
+                # Staged, but not committed changes
+                git_now="${git_now}+";
+            fi
             prompt_section 3 "${ref} ${git_now}${mode}"
         fi
     fi
