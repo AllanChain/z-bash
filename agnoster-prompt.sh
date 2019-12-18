@@ -11,7 +11,7 @@ prompt_section(){
     export CURRENT_BG=$2
 }
 end_prompt(){
-    printf " \001\033[0m\002\001\033[3${CURRENT_BG}m\002\001\033[0m \002"
+    printf " \001\033[0m\002\001\033[3${CURRENT_BG}m\002\001\033[0m\002"
 }
 dir_prompt(){
     prompt_section 0 4
