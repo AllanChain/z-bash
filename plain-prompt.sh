@@ -14,8 +14,6 @@ dir_prompt(){
 git_prompt(){
     if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
         repo_path=$(git rev-parse --git-dir 2>/dev/null)
-        ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="$(git rev-parse --short HEAD 2> /dev/null)"
-        ref=${ref/refs\/heads\//}
 
         if [[ -e "${repo_path}/BISECT_LOG" ]]; then
           mode=" <B>"
@@ -25,21 +23,14 @@ git_prompt(){
           mode=" >R>"
         fi
 
-        local git_now; # 标示
-        if output=$(git status --porcelain) && [ -z "$output" ]; then
-            # Working directory clean
-            prompt_section 2 "${ref} ${mode}"
-        else
+        gps=$(__git_ps1)
+        gps="${gps:2:-1}"
+        if ! git diff-index --quiet HEAD; then
             # Uncommitted changes
-            if ! git diff --exit-code > /dev/null; then
-                # Check for unstaged changes
-                git_now="${git_now}*";
-            fi
-            if ! git diff --cached --exit-code &> /dev/null; then
-                # Staged, but not committed changes
-                git_now="${git_now}+";
-            fi
-            prompt_section 3 "${ref} ${git_now}${mode}"
+            prompt_section 3 "$gps ${mode}"
+        else
+            # Working directory clean
+            prompt_section 2 "$gps ${mode}"
         fi
     fi
 }

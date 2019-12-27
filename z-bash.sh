@@ -1,3 +1,5 @@
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWUNTRACKEDFILES=1
 SCRIPT_PATH=$(dirname "$(realpath -s "${BASH_SOURCE[0]}")")
 
 . $SCRIPT_PATH/zsh-alias.sh
