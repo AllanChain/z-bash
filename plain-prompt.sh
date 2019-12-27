@@ -1,6 +1,6 @@
 prompt_section(){
     printf "\001\033[3$1m\002 "
-    printf "$2"
+    printf '%s' "$2"
     printf "\001\033[0m\002"
 }
 end_prompt(){
@@ -32,10 +32,10 @@ git_prompt(){
         gps="${gps:2:-1}"
         if ! git diff-index --quiet HEAD; then
             # Uncommitted changes
-            prompt_section 3 "$gps ${mode}"
+            prompt_section 3 "${gps} ${mode}"
         else
             # Working directory clean
-            prompt_section 2 "$gps ${mode}"
+            prompt_section 2 "${gps} ${mode}"
         fi
     fi
 }
