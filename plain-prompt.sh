@@ -4,7 +4,12 @@ prompt_section(){
     printf "\001\033[0m\002"
 }
 end_prompt(){
-    echo -e "\n\001\033[1;32m\002>\001\033[0m\002 "
+    if (( $1 != 0 )); then
+        printf "\n\001\033[1;31m\002"
+    else
+        printf "\n\001\033[1;32m\002"
+    fi
+    printf ">\001\033[0m\002 "
 }
 dir_prompt(){
     d_all=$(pwd)
@@ -38,12 +43,12 @@ git_prompt(){
 user_prompt(){
     prompt_section 5 "$USER@$HOSTNAME"
 }
-
 build_prompt(){
+    status=$?
     user_prompt
     dir_prompt
     git_prompt
-    end_prompt
+    end_prompt $status
 }
 
 #PS1='\[\033[30;44m\] \w \[\033[0m\]$(build_prompt)$(dir_prompt)'
