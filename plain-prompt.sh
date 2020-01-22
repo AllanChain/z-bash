@@ -30,7 +30,7 @@ git_prompt(){
 
         gps=$(__git_ps1)
         gps="${gps:2:-1}"
-        if ! git diff-index --quiet HEAD; then
+        if ! git diff-index --quiet HEAD 2>/dev/null; then
             # Uncommitted changes
             prompt_section 3 "${gps} ${mode}"
         else
