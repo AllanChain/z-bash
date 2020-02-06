@@ -11,3 +11,7 @@ if [[ $Z_BASH_STYLE == "agnoster" ]]; then
 else
     . $SCRIPT_PATH/plain-prompt.sh
 fi
+
+# https://serverfault.com/q/97503
+# print just enough spaces and back to beginning of line
+PS1="$(printf "%$((`tput cols`-1))s\r")$PS1"
