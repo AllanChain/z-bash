@@ -14,15 +14,14 @@ prompt_section(){
     fi
     # open current section
     printf "\001\033[3$1;4$2m\002 "
-    # still has one char dont know
-    CURRENT_FG=$1
     CURRENT_BG=$2
 }
 colored_str(){
     printf "\001\033[3$1m\002$2"
 }
 end_prompt(){
-    printf " \001\033[0m\002\001\033[3${CURRENT_BG}m\002$SEGMENT_SEPARATOR\001\033[0m\002 "
+    # still has one char dont know
+    printf " \001\033[0m\033[3${CURRENT_BG}m\002$SEGMENT_SEPARATOR\001\033[0m \002"
 }
 # Status:
 # - was there an error
