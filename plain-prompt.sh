@@ -48,7 +48,7 @@ git_prompt(){
     fi
 }
 end_prompt(){
-    if [ $1 != 0 ]; then
+    if [ $RETVAL != 0 ]; then
         printf "\n\001\033[1;31m\002"
     else
         printf "\n\001\033[1;32m\002"
@@ -56,13 +56,13 @@ end_prompt(){
     printf ">\001\033[0m\002 "
 }
 build_prompt(){
-    status=$?
+    RETVAL=$?
     temp_prompt
     clock_prompt
     user_prompt
     dir_prompt
     git_prompt
-    end_prompt $status
+    end_prompt
 }
 
 PS1='$(build_prompt)'
