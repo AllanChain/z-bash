@@ -1,6 +1,5 @@
 CURRENT_BG=''
 prompt_section(){
-    #local fg bg
     if [[ -n $CURRENT_BG ]];then
         # end the last section and draw seprator
         printf " \001\033[0m\002\001\033[3${CURRENT_BG};4$2m\002\001\033[0m\002"
@@ -23,10 +22,13 @@ dir_prompt(){
 }
 git_prompt(){
     if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-        repo_path=$(git rev-parse --git-dir 2>/dev/null)
-        ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git rev-parse --short HEAD 2> /dev/null)"
-        ref=${ref/refs\/heads\// }
+        if git symbolic-ref HEAD &> /dev/null;then
+            symbol=''
+        else
+            symbol='➦'
+        fi
 
+        repo_path=$(git rev-parse --git-dir 2>/dev/null)
         if [[ -e "${repo_path}/BISECT_LOG" ]]; then
           mode=" <B>"
         elif [[ -e "${repo_path}/MERGE_HEAD" ]]; then
@@ -35,26 +37,16 @@ git_prompt(){
           mode=" >R>"
         fi
 
-        local git_status=$(git status)
-        local git_now; # 标示
-        if [[ "$git_status" =~ Changes\ not\ staged || "$git_status" =~ no\ changes\ added ]]; then
-            git_now="${git_now}●";
-        fi
-        if [[ "$git_status" =~ Changes\ to\ be\ committed ]]; then
-            git_now="${git_now}✚";
-        fi
-        if [[ "$git_status" =~ Untracked\ files ]]; then
-            git_now="${git_now}+";
-        fi
-        if [[ "$git_status" =~ Your\ branch\ is\ ahead ]]; then
-            git_now="${git_now}↑";
-        fi
-        if [[ "$git_status" =~ nothing\ to\ commit ]]; then
-            prompt_section 0 2 
-        else
+        gps=$(__git_ps1)
+        gps="${gps:2:-1}"
+        if ! git diff-index --quiet HEAD 2>/dev/null; then
+            # Uncommitted changes
             prompt_section 0 3
+        else
+            # Working directory clean
+            prompt_section 0 2 
         fi
-        printf "${ref} ${git_now}${mode}"
+        printf "${symbol} ${gps}${mode}"
     fi
 }
 
