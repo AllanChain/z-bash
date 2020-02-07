@@ -44,6 +44,12 @@ status_prompt() {
         printf "$symbols"
     fi
 }
+venv_prompt() {
+    if [[ -n $VIRTUAL_ENV ]]; then
+        prompt_section 0 6
+        echo -n "$(basename $VIRTUAL_ENV)"
+    fi
+}
 dir_prompt(){
     prompt_section 0 4
     local d_all=$(pwd)
@@ -70,6 +76,7 @@ git_prompt(){
 
 build_prompt(){
     status_prompt
+    venv_prompt
     dir_prompt
     git_prompt
     end_prompt

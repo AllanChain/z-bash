@@ -20,4 +20,8 @@ build_ps1() {
     build_prompt
 }
 
-PS1='$(build_ps1)'
+reset_ps1() {
+    PS1='$(build_ps1)'
+}
+
+reset_ps1
