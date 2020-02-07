@@ -8,6 +8,16 @@ light-weight bash script for ps1 and alias, inspired by zsh
 - config up and down arrow key for history look up
 - both agnoster and plain prompt available
 
+## Screenshots
+
+### agnoster
+
+![angoster](screenshots/agnoster_shot.png)
+
+### plain
+
+![plain](screenshots/plain_shot.png)
+
 ## Install
 
 ```bash
