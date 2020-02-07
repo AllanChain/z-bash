@@ -43,6 +43,12 @@ Z_BASH_STYLE=agnoster # Optional, omitting this line means using plain prompt
 . ~/.z-bash/z-bash.sh
 ```
 
+## FAQ
+
+### What if python venv modifies PS1?
+
+Use `reset_ps1` command to set it back
+
 ## Customize
 
 Show all segments of current prompt:
