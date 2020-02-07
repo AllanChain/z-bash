@@ -12,7 +12,12 @@ else
     . $SCRIPT_PATH/plain-prompt.sh
 fi
 
-# https://serverfault.com/q/97503
-# print just enough spaces and back to beginning of line
-PS1='$(printf "%`tput cols`s\r")'"$PS1"
-# PS1='$(printf "%$((`tput cols`-1))s\r")'"$PS1"
+build_ps1() {
+    RETVAL=$?
+    # https://serverfault.com/q/97503
+    # print just enough spaces and back to beginning of line
+    printf "%`tput cols`s\r"
+    build_prompt
+}
+
+PS1='$(build_ps1)'

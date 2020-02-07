@@ -69,11 +69,8 @@ git_prompt(){
 }
 
 build_prompt(){
-    RETVAL=$?
     status_prompt
     dir_prompt
     git_prompt
     end_prompt
 }
-
-PS1='$(build_prompt)'

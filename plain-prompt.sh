@@ -43,7 +43,6 @@ end_prompt(){
     printf ">\001\033[0m\002 "
 }
 build_prompt(){
-    RETVAL=$?
     temp_prompt
     clock_prompt
     user_prompt
@@ -51,5 +50,3 @@ build_prompt(){
     git_prompt
     end_prompt
 }
-
-PS1='$(build_prompt)'
