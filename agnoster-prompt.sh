@@ -28,7 +28,7 @@ end_prompt(){
 # - am I root
 # - are there background jobs?
 status_prompt() {
-    symbols=""
+    local symbols=""
     if [[ $RETVAL -ne 0 ]]; then
         symbols="$symbols$(colored_str 1 $CROSS)"
     fi
@@ -46,30 +46,25 @@ status_prompt() {
 }
 dir_prompt(){
     prompt_section 0 4
-    d_all=$(pwd)
+    local d_all=$(pwd)
     d_all=${d_all/$HOME/\~}
-    # printf "$d_all"
-    d_trim=$(echo $d_all | sed 's|.*\(\(/[^/]*\)\{2\}\)|\1|g' | sed 's|^/||')
+    local d_trim=$(echo $d_all | sed 's|.*\(\(/[^/]*\)\{2\}\)|\1|g' | sed 's|^/||')
     echo -n $d_trim
 }
 git_prompt(){
-    if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-        if git symbolic-ref HEAD &> /dev/null;then
-            symbol=$BRANCH
-        else
-            symbol=$DETACHED
-        fi
+    local gps=$(__git_ps1)
+    if [[ -n $gps ]]; then
+        gps=${gps:2:-1}
+        local clean=$(echo "$gps" | sed 's|.* .*||')
 
-        gps=$(__git_ps1)
-        gps="${gps:2:-1}"
-        if ! git diff-index --quiet HEAD 2>/dev/null; then
-            # Uncommitted changes
-            prompt_section 0 3
-        else
-            # Working directory clean
-            prompt_section 0 2
-        fi
-        printf "${symbol} ${gps}${mode}"
+        if [[ -n $clean ]]; then prompt_section 0 2
+        else prompt_section 0 3; fi
+
+        if git symbolic-ref HEAD &> /dev/null; then printf $BRANCH
+        else printf $DETACHED; fi
+
+        echo -n ' '
+        echo -n "$gps" | sed 's| ||'
     fi
 }
 
