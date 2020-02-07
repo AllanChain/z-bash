@@ -20,6 +20,20 @@ light-weight bash script for ps1 and alias, inspired by zsh
 
 ## Install
 
+First check if `__git_ps1` is available
+
+```bash
+__git_ps1
+# or
+command -v __git_ps1
+```
+
+If not, you may want to checkout `/usr/lib/git-core/git-sh-prompt`(Debian), `/usr/share/git/completion/git-prompt.sh`(Arch), `/usr/share/git-core/contrib/completion/git-prompt.sh`(Fedora)
+
+Or, take a look at this question: <https://stackoverflow.com/q/15384025/8810271>
+
+---
+
 ```bash
 git clone https://github.com/AllanChain/z-bash ~/.z-bash
 ```
