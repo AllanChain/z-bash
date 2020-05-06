@@ -40,7 +40,7 @@ status_prompt() {
     fi
 
     if [[ -n "$symbols" ]]; then
-        prompt_section 0 7
+        prompt_section 0 0
         printf "$symbols"
     fi
 }
