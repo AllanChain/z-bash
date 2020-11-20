@@ -58,7 +58,7 @@ dir_prompt(){
     echo -n $d_trim
 }
 git_prompt(){
-    local gps=$(__git_ps1)
+    local gps=$(__git_ps1 2>/dev/null)
     if [[ -n $gps ]]; then
         gps=${gps:2:-1}
         local clean=$(echo "$gps" | sed 's|.* .*||')

@@ -25,7 +25,7 @@ dir_prompt(){
     prompt_section 7 "$d_all"
 }
 git_prompt(){
-    local gps=$(__git_ps1)
+    local gps=$(__git_ps1 2>/dev/null)
     if [[ -n $gps ]]; then
         gps=${gps:2:-1}
         local clean=$(echo "$gps" | sed 's|.* .*||')
